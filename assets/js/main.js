@@ -1,6 +1,6 @@
 /**
-* Template Name: Arsha - v4.7.1
-* Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+* Template Name: Plato - v4.7.0
+* Template URL: https://bootstrapmade.com/plato-responsive-bootstrap-website-template/
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
@@ -75,19 +75,23 @@
   }
 
   /**
-   * Toggle .header-scrolled class to #header when page is scrolled
+   * Header fixed top on scroll
    */
   let selectHeader = select('#header')
   if (selectHeader) {
-    const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled')
+    let headerOffset = selectHeader.offsetTop
+    let nextElement = selectHeader.nextElementSibling
+    const headerFixed = () => {
+      if ((headerOffset - window.scrollY) <= 0) {
+        selectHeader.classList.add('fixed-top')
+        nextElement.classList.add('scrolled-offset')
       } else {
-        selectHeader.classList.remove('header-scrolled')
+        selectHeader.classList.remove('fixed-top')
+        nextElement.classList.remove('scrolled-offset')
       }
     }
-    window.addEventListener('load', headerScrolled)
-    onscroll(document, headerScrolled)
+    window.addEventListener('load', headerFixed)
+    onscroll(document, headerFixed)
   }
 
   /**
@@ -155,47 +159,14 @@
   });
 
   /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
-
-  /**
-   * Initiate  glightbox 
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
-   * Skills animation
-   */
-  let skilsContent = select('.skills-content');
-  if (skilsContent) {
-    new Waypoint({
-      element: skilsContent,
-      offset: '80%',
-      handler: function(direction) {
-        let progress = select('.progress .progress-bar', true);
-        progress.forEach((el) => {
-          el.style.width = el.getAttribute('aria-valuenow') + '%'
-        });
-      }
-    })
-  }
-
-  /**
    * Porfolio isotope and filter
    */
   window.addEventListener('load', () => {
     let portfolioContainer = select('.portfolio-container');
     if (portfolioContainer) {
       let portfolioIsotope = new Isotope(portfolioContainer, {
-        itemSelector: '.portfolio-item'
+        itemSelector: '.portfolio-item',
+        layoutMode: 'fitRows'
       });
 
       let portfolioFilters = select('#portfolio-flters li', true);
@@ -243,15 +214,33 @@
   });
 
   /**
+   * Testimonials slider
+   */
+  new Swiper('.testimonials-slider', {
+    speed: 600,
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false
+    },
+    slidesPerView: 'auto',
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    }
+  });
+
+  /**
    * Animation on scroll
    */
   window.addEventListener('load', () => {
     AOS.init({
       duration: 1000,
-      easing: "ease-in-out",
+      easing: 'ease-in-out',
       once: true,
       mirror: false
-    });
+    })
   });
 
 })()
